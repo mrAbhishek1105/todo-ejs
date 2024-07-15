@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/4b70fbf573.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Abhishek</title>
+</head>
+<body class="bg-teal-600 flex flex-col justify-center items-center h-auto p-3">
+    <div class="w-auto bg-orange-200 rounded-lg p-8 shadow-lg relative">
+        <h2 class="text-5xl font-bold text-center mb-6">Welcome to TODOs</h2>
+        <form action="/addtodo" method="post" class="flex space-x-2">
+            <input type="text" name="todo" class="flex-grow p-2 rounded border border-gray-300" placeholder="Enter Your TODOs">
+            <button class="flex-none bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Add</button>
+        </form>
+    </div>
+    <div class="bg-white p-4 rounded shadow-md m-7 relative overflow-y-auto h-80 scroll-smooth">
+        <h3 class="text-2xl font-semibold mb-2">Your TODOs</h3>
+        <ul class="space-y-2 min-w-96 max-w-2xl">
+            <% todos.forEach(todo => { %>
+                <li class="<%= todo.complete ? 'bg-green-200':'' %> flex justify-between items-center p-2 border border-gray-300 rounded">
+                    <span class="<%= todo.complete ? 'line-through' : '' %>"><%= todo.todo %></span>
+                    <div class="flex">
+                        <% if (!todo.complete) { %>
+                            <form action="/complete-todo" method="POST">
+                                <input type="hidden" name="todoId" value="<%= todo._id %>">
+                                <button type="submit" class="bg-green-300 text-white mx-1 px-2 py-1 rounded hover:bg-green-600">
+                                    <i class="fa-solid fa-check"></i>
+                                </button>
+                            </form>
+                        <% } else { %>
+                            <button class="bg-gray-300 text-white mx-1 px-2 py-1 rounded">
+                                <i class="fa-solid fa-check-double"></i>
+                            </button>
+                        <% } %>
+                        <form action="/delete-todo" method="POST">
+                            <input type="hidden" name="todoId" value="<%= todo._id %>">
+                            <button type="submit" class="bg-red-300 text-white px-2 mx-1 py-1 rounded hover:bg-red-600">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+</body>
+</html>
